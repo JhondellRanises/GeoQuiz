@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">GeoQuiz Ranises</string>
+    <string name="question_australia_capital">Manila is the capital of Philippines.</string>
+    <string name="question_pacific_larger">The Pacific Ocean is larger than the Atlantic Ocean.</string>
+    <string name="question_suez_connects">Asia is the Biggest continent in the world.</string>
+    <string name="question_machu_picchu">Pyramids of Giza is located in China.</string>
+    <string name="question_nile_longest">The Nile River is the longest river in the world.</string>
+    <string name="question_tokyo_capital">Tokyo is the capital of Japan.</string>
+    <string name="question_sahara_largest">The Sahara Desert is the largest hot desert in the world.</string>
+    <string name="question_everest_andes">Mount Everest is located in the Andes mountain range.</string>
+    <string name="question_venus_closest">Venus is the closest planet to the Sun.</string>
+    <string name="question_barrier_reef">The Great Barrier Reef is located off the coast of Australia.</string>
+    <string name="true_button">TRUE</string>
+    <string name="false_button">FALSE</string>
+    <string name="next_button">&gt;</string>
+    <string name="prev_button">&lt;</string>
+    <string name="correct_toast">Correct!</string>
+    <string name="incorrect_toast">Incorrect!</string>
+    <string name="score_toast">Your score is %1$d out of %2$d.</string>
+    <string name="prev_button_content_desc">Go to previous question</string>
+    <string name="next_button_content_desc">Go to next question</string>
+</resources>
