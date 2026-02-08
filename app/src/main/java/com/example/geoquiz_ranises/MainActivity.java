@@ -46,6 +46,15 @@ public class MainActivity extends AppCompatActivity {
         mNextButton = findViewById(R.id.next_button);
         mPrevButton = findViewById(R.id.prev_button);
 
+        // Set up question text click listener
+        mQuestionTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.size();
+                updateQuestion();
+            }
+        });
+
         // Set up button click listeners
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,20 +73,16 @@ public class MainActivity extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mCurrentIndex < mQuestionBank.size() - 1) {
-                    mCurrentIndex++;
-                    updateQuestion();
-                }
+                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.size();
+                updateQuestion();
             }
         });
 
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mCurrentIndex > 0) {
-                    mCurrentIndex--;
-                    updateQuestion();
-                }
+                mCurrentIndex = (mCurrentIndex - 1 + mQuestionBank.size()) % mQuestionBank.size();
+                updateQuestion();
             }
         });
 
@@ -141,10 +146,8 @@ public class MainActivity extends AppCompatActivity {
     private void updateButtonStates() {
         boolean answered = mQuestionAnswered != null && mQuestionAnswered[mCurrentIndex];
         setAnswerButtonsEnabled(!answered);
-        boolean hasNext = mCurrentIndex < mQuestionBank.size() - 1;
-        mNextButton.setEnabled(hasNext);
-        boolean hasPrevious = mCurrentIndex > 0;
-        mPrevButton.setEnabled(hasPrevious);
+        mNextButton.setEnabled(true);
+        mPrevButton.setEnabled(true);
     }
 
     private void checkAnswer(boolean userPressedTrue) {
