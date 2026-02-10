@@ -10,6 +10,10 @@
     <string name="question_everest_andes">Mount Everest is located in the Andes mountain range.</string>
     <string name="question_venus_closest">Venus is the closest planet to the Sun.</string>
     <string name="question_barrier_reef">The Great Barrier Reef is located off the coast of Australia.</string>
+    <string name="cheat_button">CHEAT!</string>
+    <string name="warning_text">Are you sure you want to do this?</string>
+    <string name="show_answer_button">SHOW ANSWER</string>
+    <string name="judgment_toast">Cheating is wrong.</string>
     <string name="true_button">TRUE</string>
     <string name="false_button">FALSE</string>
     <string name="next_button">&gt;</string>
