@@ -181,25 +181,28 @@ public class MainActivity extends AppCompatActivity {
         int messageResId;
         
         if (userPressedTrue == answerIsTrue) {
-            messageResId = R.string.correct_toast;
             android.util.Log.d("CHEAT_DEBUG", "Question " + mCurrentIndex + " mIsCheater: " + mIsCheater[mCurrentIndex]);
-            if (!mIsCheater[mCurrentIndex]) {
-                mCorrectAnswerCount++;
-            } else {
+            mCorrectAnswerCount++;
+            if (mIsCheater[mCurrentIndex]) {
                 Toast.makeText(this, R.string.judgment_toast, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, R.string.correct_toast, Toast.LENGTH_SHORT).show();
             }
         } else {
-            messageResId = R.string.incorrect_toast;
+            Toast.makeText(this, R.string.incorrect_toast, Toast.LENGTH_SHORT).show();
         }
         
         mQuestionAnswered[mCurrentIndex] = true;
         mAnsweredQuestionCount++;
         updateButtonStates();
         
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
-        
         if (mAnsweredQuestionCount == mQuestionBank.size()) {
-            String scoreText = getString(R.string.score_toast, mCorrectAnswerCount, mQuestionBank.size());
+            int cheatedCount = 0;
+            for (boolean cheated : mIsCheater) {
+                if (cheated) cheatedCount++;
+            }
+            String scoreText = getString(R.string.score_toast, mCorrectAnswerCount, mQuestionBank.size()) + 
+                              " (Cheated: " + cheatedCount + ")";
             Toast.makeText(this, scoreText, Toast.LENGTH_LONG).show();
         }
     }
