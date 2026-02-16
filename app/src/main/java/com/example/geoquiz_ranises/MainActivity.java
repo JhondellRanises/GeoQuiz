@@ -144,6 +144,12 @@ public class MainActivity extends AppCompatActivity {
         String questionText = getString(question);
         String numberedQuestion = String.format(Locale.getDefault(), "%d. %s", mCurrentIndex + 1, questionText);
         mQuestionTextView.setText(numberedQuestion);
+        
+        // Debug: Log current question and cheated status
+        if (mIsCheater != null && mCurrentIndex < mIsCheater.length) {
+            android.util.Log.d("CHEAT_DEBUG", "Moved to question " + mCurrentIndex + " cheated: " + mIsCheater[mCurrentIndex]);
+        }
+        
         updateButtonStates();
     }
 
@@ -170,6 +176,38 @@ public class MainActivity extends AppCompatActivity {
         setAnswerButtonsEnabled(!answered);
         mNextButton.setEnabled(true);
         mPrevButton.setEnabled(true);
+
+        // Make cheat button transparent like True/False buttons when question is answered
+        float alpha = answered ? 0.4f : 1f;
+        mCheatButton.setAlpha(alpha);
+        // Keep cheat button enabled even when answered (just transparent)
+
+        // Backup check for final score
+        checkAndShowFinalScore();
+    }
+
+    private void checkAndShowFinalScore() {
+        if (mAnsweredQuestionCount >= mQuestionBank.size()) {
+            android.util.Log.d("SCORE_DEBUG", "All questions answered, showing final score");
+            int cheatedCount = 0;
+            if (mIsCheater != null) {
+                for (int i = 0; i < mIsCheater.length && i < mQuestionBank.size(); i++) {
+                    if (mIsCheater[i]) cheatedCount++;
+                }
+            }
+            String scoreText = "Final Score: " + mCorrectAnswerCount + "/" + mQuestionBank.size() + 
+                              " (Cheated: " + cheatedCount + ")";
+            android.util.Log.d("SCORE_DEBUG", "Correct: " + mCorrectAnswerCount + " Cheated: " + cheatedCount);
+            android.util.Log.d("SCORE_DEBUG", "Showing final score: " + scoreText);
+            
+            // Show score with a slight delay to avoid conflicts with answer toasts
+            new android.os.Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.this, scoreText, Toast.LENGTH_LONG).show();
+                }
+            }, 1000);
+        }
     }
 
     private void checkAnswer(boolean userPressedTrue) {
@@ -196,19 +234,19 @@ public class MainActivity extends AppCompatActivity {
         mAnsweredQuestionCount++;
         updateButtonStates();
         
-        if (mAnsweredQuestionCount == mQuestionBank.size()) {
-            int cheatedCount = 0;
-            for (boolean cheated : mIsCheater) {
-                if (cheated) cheatedCount++;
-            }
-            String scoreText = getString(R.string.score_toast, mCorrectAnswerCount, mQuestionBank.size()) + 
-                              " (Cheated: " + cheatedCount + ")";
-            Toast.makeText(this, scoreText, Toast.LENGTH_LONG).show();
-        }
+        android.util.Log.d("SCORE_DEBUG", "Answered: " + mAnsweredQuestionCount + " Total: " + mQuestionBank.size());
+        
+        // Check if all questions are answered and show score immediately
+        checkAndShowFinalScore();
     }
 
     private void showScore() {
-        String scoreMessage = getString(R.string.score_toast, mCorrectAnswerCount, mQuestionBank.size());
+        int cheatedCount = 0;
+        for (boolean cheated : mIsCheater) {
+            if (cheated) cheatedCount++;
+        }
+        String scoreMessage = "Score: " + mCorrectAnswerCount + "/" + mAnsweredQuestionCount + 
+                              " (Cheated: " + cheatedCount + ")";
         Toast.makeText(this, scoreMessage, Toast.LENGTH_LONG).show();
     }
 
